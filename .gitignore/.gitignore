@@ -1,0 +1,50 @@
+ //    倒计时部分
+    function backTime(curT) {
+        //首先获取从服务器端传来的时间curT
+        var hours = curT.split(' ')[1].split(':')[0];
+        var minutes1 = curT.split(' ')[1].split(':')[1];
+        var seconds = curT.split(' ')[1].split(':')[2];
+
+        var minutes = parseInt(minutes1%10)*60 + parseInt(seconds);//当前处在的时间秒数
+
+        if(hours>=22 && hours < 2){
+            var minutes2 = parseInt(5*60) - minutes;//倒计时还剩余的总的倒计时秒数
+            var symin = parseInt(minutes2/60);
+            var syms = minutes2%60;
+        }else if(hours>=10 && hours < 22){
+            var minutes2 = parseInt(10*60) - minutes;//倒计时还剩余的总的倒计时秒数
+            var symin = parseInt(minutes2/60);
+            var syms = minutes2%60;
+        }else {
+            $('.timeAll').html('竞猜尚未开始');
+        }
+
+        if(syms!=0){
+            syms--;
+        }else {
+            syms= 59;
+            if(symin != 0){
+                 symin--;
+            }
+        }
+
+        if(syms >=0){
+            syms = syms < 10 ? ('0'+syms):syms;
+            if(symin==0 && syms==0){
+                var changeIssue = $('#issueTimeSpan').text();
+                console.log("===================>>倒计时为：0 , changeIssue=" +changeIssue );
+                dealDelayIssue(changeIssue);
+                //倒计时结束调用获取期号
+                getIssue();
+            }
+
+            $('.timeAll').html('00' + ':0' + symin + ':' + syms);
+        }else {
+            $('.timeAll').html('竞猜尚未开始');
+        }
+
+    /* //1、倒计时结束调用获取期号
+        getIssue();
+        //2、获取开奖号码
+        getOpenNumberByIssue();*/
+    }
